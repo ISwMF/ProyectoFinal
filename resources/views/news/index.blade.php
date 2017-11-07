@@ -12,17 +12,26 @@
     <title>{{$report->title}}</title>
   </head>
   <body>
+    <div class="container">
+
+
     <h1>{{$report->title}}</h1>
     <hr><b>Post by:</b> {{$report->user->name}}</hr>
     <br>
     <br>
-    <input type="button" onClick="parent.location='{{$report->URL}}'" value="Open URL" formtarget="_blank">
+
     <div id="report_description">
       {{$report->description}}
     </div>
+    <br>
+    <br>
+    <input class="btn btn-info" type="button" onClick="parent.location='{{$report->URL}}'" value="Open URL" formtarget="_blank">
+    <br>
+    <br>
     <div class="points" id="points" name="points">
       <h4>Points: {{$report->points}}</h4>
     </div>
+
     @if(Session::has('name'))
       <script type="text/javascript">
           $.ajaxSetup({
@@ -37,5 +46,19 @@
       <div class="greeting" id="greeting" name="greeting">
       </div>
     @endif
+    <br>
+    <div class="panel-group">
+      @foreach($comments as $comment)
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          {{$comment->user->name}} commented
+          <button type="button" name="button" class="btn btn-info pull-right">Vote Up</button>
+          <button type="button" name="button" class="btn btn-info pull-right">Vote Down</button>
+        </div>
+        <div class="panel-body">{{$comment->description}}</div>
+      </div>
+      @endforeach
+    </div>
+  </div>
   </body>
 </html>

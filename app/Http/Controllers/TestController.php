@@ -58,7 +58,16 @@ class TestController extends Controller{
     public function reportView($id){
       $report = report::find($id);
       $report->user;
-      return view('news.index', ['report'=> $report]);
+      $comments = comment::where('id_report', $id)->get();
+      $lenght = count($comments);
+      for ($i=0; $i < $lenght ; $i++) {
+          $comments[$i]->user;
+      }
+
+      //dd($comments);
+      //print_r($comments);
+
+      return view('news.index', ['report'=> $report, 'comments' => $comments]);
     }
     public function voteup(){
       return View::make('greeting')->with('post', 'post');

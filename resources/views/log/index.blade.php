@@ -16,7 +16,7 @@
       {!! Form::open(['action' => 'TestController@authView']) !!}
       <div class="form-group">
         {!!Form::label('email', 'E-Mail Address')!!}
-        {!!Form::text('email', '', ['placeholder' => 'John Doe','required','class' => 'form-control'])!!}
+        {!!Form::text('email', '', ['placeholder' => 'example@example.com','required','class' => 'form-control'])!!}
       </div>
       <div class="form-group">
         {!!Form::label('password', 'Password')!!}

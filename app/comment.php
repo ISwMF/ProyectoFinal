@@ -12,10 +12,10 @@ class comment extends Model
         'id_user', 'id_new', 'points', 'created_at', 'updated_at',
     ];
     public function user(){
-      return $this->belongsTo('App\User', 'id','id');
+      return $this->belongsTo('App\User', 'id_user');
     }
     public function report(){
-      return $this->belongsTo('App\report', 'id','id');
+      return $this->belongsTo('App\report', 'id_report');
     }
 
   }
