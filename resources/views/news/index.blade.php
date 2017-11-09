@@ -12,17 +12,26 @@
     <title>{{$report->title}}</title>
   </head>
   <body>
+    <div class="container">
+
+
     <h1>{{$report->title}}</h1>
     <hr><b>Post by:</b> {{$report->user->name}}</hr>
     <br>
     <br>
-    <input type="button" onClick="parent.location='{{$report->URL}}'" value="Open URL" formtarget="_blank">
+
     <div id="report_description">
       {{$report->description}}
     </div>
+    <br>
+    <br>
+    <input class="btn btn-info" type="button" onClick="parent.location='{{$report->URL}}'" value="Open URL" formtarget="_blank">
+    <br>
+    <br>
     <div class="points" id="points" name="points">
       <h4>Points: {{$report->points}}</h4>
     </div>
+
     @if(Session::has('name'))
       <script type="text/javascript">
           $.ajaxSetup({
@@ -37,5 +46,34 @@
       <div class="greeting" id="greeting" name="greeting">
       </div>
     @endif
+    <br>
+    <div class="panel-group">
+      @foreach($comments as $comment)
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="row">
+            @if(Session::has('name'))
+            <div class="col-sm-1 col-xs-4">
+              <div  class="btn-group btn-group-sm">
+                <input type="button" name="voteupcomment{{$comment->id}}" id="voteupcomment{{$comment->id}}" value="+" class="btn btn-info " onclick="voteupcomment({{$comment->id}})">
+                <input type="button" name="votedowncomment{{$comment->id}}" id="votedowncomment{{$comment->id}}" value="--" class="btn btn-info " onclick="votedowncomment({{$comment->id}})">
+              </div>
+            </div>
+            @endif
+            <div class="col-sm-9 col-xs-4">
+              <p><b>{{$comment->user->name}} commented</b> | {{$comment->created_at}}</p>
+            </div>
+            <div class="col-sm-2 col-xs-4" id="pointscomment{{$comment->id}}" name="pointscomment{{$comment->id}}">
+              <b>Points: {{$comment->points}}</b>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="panel-body">{{$comment->description}}</div>
+      </div>
+      @endforeach
+    </div>
+  </div>
   </body>
 </html>

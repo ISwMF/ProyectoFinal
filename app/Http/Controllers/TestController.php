@@ -37,28 +37,38 @@ class TestController extends Controller{
     }
 
 
-  public function ajaxRequestPost2(Request $request){
-    $points = $request->input('voteup');
+  public function votereport(Request $request){
+    $points = $request->input('vote');
     $id_report = $request->input('id');
     $report = report::find($id_report);
     $report->points= $points;
     $report->save();
-    //$request->input('vote')
-    return response()->json(['sucess'=>'A point up']);
   }
-  public function ajaxRequestPost(Request $request){
-    $points = $request->input('votedown');
-    $id_report = $request->input('id');
-    $report = report::find($id_report);
-    $report->points= $points;
-    $report->save();
-    //$request->input('vote')
-    return response()->json(['sucess'=>'A point down']);
+  public function votecomment(Request $request){
+    $points = $request->input('vote');
+    $id_comment = $request->input('id');
+    $comment = comment::find($id_comment);
+    $comment->points= $points;
+    $comment->save();
   }
     public function reportView($id){
       $report = report::find($id);
       $report->user;
-      return view('news.index', ['report'=> $report]);
+      $comments = comment::where('id_report', $id)->get();
+      $length = count($comments);
+      for($i=0;$i<($length-1);$i++){
+        for($j=$i+1;$j<$length;$j++){
+          if($comments[$i]->points < $comments[$j]->points){
+              $variableauxiliar=$comments[$i];
+              $comments[$i]=$comments[$j];
+              $comments[$j]=$variableauxiliar;
+          }
+        }
+      }
+      for ($i=0; $i < $length ; $i++) {
+          $comments[$i]->user;
+      }
+      return view('news.index', ['report'=> $report, 'comments' => $comments]);
     }
     public function voteup(){
       return View::make('greeting')->with('post', 'post');

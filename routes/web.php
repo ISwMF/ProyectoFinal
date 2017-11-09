@@ -14,11 +14,9 @@
 Route::get('login/facebook', 'TestController@redirectToProvider')->name('facebook.login');
 Route::get('login/facebook/callback', 'TestController@handleProviderCallback');
 
-//Route::get('ajaxRequest', 'TestController@ajaxRequest');
+Route::post('votereport', 'TestController@votereport');
 
-Route::post('ajaxRequest', 'TestController@ajaxRequestPost');
-Route::post('ajaxRequest2', 'TestController@ajaxRequestPost2');
-//Route::resource('ajaxRequest', 'TestController', ['except' => ['create']]);
+Route::post('votecomment', 'TestController@votecomment');
 
 Route::get('/', [
   'uses' => 'TestController@view',
