@@ -13,13 +13,22 @@
   </head>
   <body>
     <div class="container">
-
-
-    <h1>{{$report->title}}</h1>
-    <hr><b>Post by:</b> {{$report->user->name}}</hr>
-    <br>
-    <br>
-
+      <h1>{{$report->title}}</h1>
+      <div class="row">
+        <div class="col-sm-10">
+          <hr><b>Post by:</b> {{$report->user->name}}</hr>
+        </div>
+        @if(Session::has('name') && !isset($favorite[0]))
+        <div class="col-sm-2" id="favorite">
+          <button type="button" name="buttonfavorite" id="buttonfavorite" class="btn btn-warning" onclick="addtofavorite({{$report->id}})">Add to favorites</button>
+        </div>
+        @elseif(Session::has('name') && isset($favorite[0]))
+        <div class="col-sm-2" id="favorite">
+          <button type="button" name="buttonunfavorite" id="buttonunfavorite" class="btn btn-warning" onclick="removefavorite({{$report->id}})">Remove from favorites</button>
+        </div>
+        @endif
+      </div>
+      <br><br>
     <div id="report_description">
       {{$report->description}}
     </div>
@@ -41,18 +50,42 @@
           });
       </script>
 
-      <button class="btn btn-success btn-submit" type="button" name="voteup" id="voteup" onclick="voteup({{$report->id}}, {{$report->points}})">Vote Up</button>
-      <button class="btn btn-success btn-submit" type="button" name="votedown" id="votedown" onclick="votedown({{$report->id}}, {{$report->points}})">Vote Down</button>
+      <button class="btn btn-success btn-submit" type="button" name="voteup" id="voteup" onclick="voteup({{$report->id}}, {{$report->user->id}})">Vote Up</button>
+      <button class="btn btn-success btn-submit" type="button" name="votedown" id="votedown" onclick="votedown({{$report->id}}, {{$report->user->id}})">Vote Down</button>
       <div class="greeting" id="greeting" name="greeting">
       </div>
     @endif
     <br>
+    @if(Session::has('name'))
+    <div class="row">
+      <div class="col-sm-3">
+        <div align="center">
+          <h4>Sponsor</h4>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Make a comment</div>
+          <textarea rows="2" class="form-control" name="commentdescription" id="commentdescription"></textarea>
+          <div class="panel-body" id="message" name="message">
+            <button type="button" class="btn btn-info" name="button" onclick="sendcomment({{$report->id}}, commentdescription.value)">Send comment</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div align="center">
+          <h4>Sponsor</h4>
+        </div>
+      </div>
+    </div>
+    @endif
+
     <div class="panel-group">
       @foreach($comments as $comment)
       <div class="panel panel-info">
-        <div class="panel-heading">
+        <div class="panel-heading" >
           <div class="row">
-            @if(Session::has('name'))
+            @if(Session::has('name') && $comment->user->id != Session::get('id'))
             <div class="col-sm-1 col-xs-4">
               <div  class="btn-group btn-group-sm">
                 <input type="button" name="voteupcomment{{$comment->id}}" id="voteupcomment{{$comment->id}}" value="+" class="btn btn-info " onclick="voteupcomment({{$comment->id}})">

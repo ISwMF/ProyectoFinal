@@ -11,8 +11,8 @@
 
 </head>
   <body>
-    <h1>Register</h1>
     <div class="container">
+      <h1>Register</h1>
       {!!Form::open(['action' => 'TestController@signin'])!!}
       <div class="form-group">
         {!!Form::label('name', 'Name')!!}

@@ -35,15 +35,58 @@ class TestController extends Controller{
         $userup->save();
         return redirect('/');
     }
-
+    public function updateprofile(Request $request){
+      $user = User::find(session('id'));
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->save();
+      session(['name' => $request->name]);
+      session(['name' => $request->name]);
+      return redirect('/');
+    }
+    public function updatepassword(Request $request){
+      $user = User::find(session('id'));
+      if (Hash::check($request->oldpassword, $user->password)) {
+        $user->password = bcrypt($request->newpassword);
+        $user->save();
+        return redirect('/');
+      }else{
+        echo "Incorrect!";
+      }
+    }
+    public function addfavorite(Request $request){
+      $favorite = new favorite;
+      $favorite->id_user = $request->session()->get('id');
+      $favorite->id_report = $request->id_report;
+      $favorite->save();
+    }
+    public function removefavorite(Request $request){
+      $favorite = favorite::where('id_report', $request->id_report)->where('id_user', $request->session()->get('id'))->delete();
+    }
+    public function addcomment(Request $request){
+      $comment = new comment;
+      $comment->id_user = $request->session()->get('id');
+      $comment->id_report = $request->id_report;
+      $comment->description = $request->description;
+      $comment->save();
+      return response()->json(['sucess'=>'Added comment']);
+    }
 
   public function votereport(Request $request){
     $points = $request->input('vote');
     $id_report = $request->input('id');
     $report = report::find($id_report);
     $report->points= $points;
-    $report->save();
+    $reporter = User::find($request->reporter);
+    if ($request->what == "-") {
+      $reporter->points = $reporter->points - 1;
+      $reporter->save();
+    }elseif ($request->what == "+") {
+      $reporter->points = $reporter->points + 1;
+      $reporter->save();
+    }
   }
+
   public function votecomment(Request $request){
     $points = $request->input('vote');
     $id_comment = $request->input('id');
@@ -51,10 +94,17 @@ class TestController extends Controller{
     $comment->points= $points;
     $comment->save();
   }
+  public function viewprofile($id){
+    $user = User::find($id);
+    $user->report;
+    return view('profile.index', ['user'=> $user]);
+  }
     public function reportView($id){
       $report = report::find($id);
       $report->user;
       $comments = comment::where('id_report', $id)->get();
+      $favorite = favorite::where('id_report', $id)->where('id_user', session('id'))->get();
+      //dd($favorite);
       $length = count($comments);
       for($i=0;$i<($length-1);$i++){
         for($j=$i+1;$j<$length;$j++){
@@ -68,10 +118,13 @@ class TestController extends Controller{
       for ($i=0; $i < $length ; $i++) {
           $comments[$i]->user;
       }
-      return view('news.index', ['report'=> $report, 'comments' => $comments]);
+      return view('news.index', ['report'=> $report, 'comments' => $comments, 'favorite' => $favorite]);
     }
     public function voteup(){
       return View::make('greeting')->with('post', 'post');
+    }
+    public function editView(){
+      return view('edit.index');
     }
     public function loginView(){
       return view('log.index');
@@ -81,7 +134,7 @@ class TestController extends Controller{
     }
     public function exitView(){
       session()->flush();
-      return view('log.index');
+      return redirect('/');
     }
     public function newpostView(){
       //echo "hola";

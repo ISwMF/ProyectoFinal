@@ -3,23 +3,53 @@ $.ajaxSetup({
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   }
 });
-function votar(){
-  var x = document.getElementById("vote_up_button").disabled;
-  var y = document.getElementById("vote_down_button").disabled;
-  if (x) {
-    document.getElementById("vote_up_button").disabled = false;
-  }else {
-    document.getElementById("vote_up_button").disabled = true;
+
+function addtofavorite(){
+  var a = arguments[0];
+  $.ajax({
+     type:'POST',
+     url:'/addfavorite',
+     data:{id_report:a},
+     success:function(data){
+       $("#favorite").empty();
+       $('#favorite').html('<button type=\"button\" name=\"buttonunfavorite\" id=\"buttonunfavorite\" class=\"btn btn-warning\" onclick=\"removefavorite('+a+')\">Remove from favorites</button>');
+     }
+  });
+}
+function removefavorite(){
+  var a = arguments[0];
+  $.ajax({
+     type:'POST',
+     url:'/removefavorite',
+     data:{id_report:a},
+     success:function(data){
+       $("#favorite").empty();
+       $('#favorite').html('<button type=\"button\" name=\"buttonfavorite\" id=\"buttonfavorite\" class=\"btn btn-warning\" onclick=\"addtofavorite('+a+')\">Add to favorites</button>');
+     }
+  });
+}
+function sendcomment(){
+  var a = arguments[0];
+  var b = arguments[1];
+  if (b == "") {
+    alert('Your comments can\'t be empty');
   }
-  if (y) {
-    document.getElementById("vote_down_button").disabled = false;
-  }else{
-    document.getElementById("vote_down_button").disabled = true;
+  else{
+    $.ajax({
+       type:'POST',
+       url:'/sendcomment',
+       data:{id_report:a , description:b},
+       success:function(data){
+         $("#message").html(data.sucess);
+         $("#commentdescription").prop('readonly', true);
+       }
+    });
   }
 }
 
 function voteup(){
   var a = arguments[0];
+  var b = arguments[1];
   var c = $("#points").text();
   var d = "";
   for (var i = 0; i < c.length; i++) {
@@ -34,18 +64,18 @@ function voteup(){
   $.ajax({
      type:'POST',
      url:'/votereport',
-     data:{vote:d , id:a},
+     data:{vote:d , id:a, reporter:b, what:"+"},
      success:function(data){
        $('#points').empty();
        $('#points').html('<h4>Points: '+ d +'</h4>');
        $("#voteup").prop('disabled', true);
        $("#votedown").prop('disabled', false);
-
      }
   });
 }
 function votedown(){
   var a = arguments[0];
+  var b = arguments[1];
   var c = $("#points").text();
   var d = "";
   for (var i = 0; i < c.length; i++) {
@@ -60,7 +90,7 @@ function votedown(){
   $.ajax({
      type:'POST',
      url:'/votereport',
-     data:{vote:d , id:a},
+     data:{vote:d , id:a, reporter:b, what:"-"},
      success:function(data){
        $('#points').empty();
        $('#points').html('<h4>Points: '+ d +'</h4>');

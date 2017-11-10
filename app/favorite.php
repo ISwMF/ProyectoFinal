@@ -8,9 +8,9 @@ class favorite extends Model
 {
     protected $table = 'favorites';
     public function reports(){
-      return $this->belongsToMany('App\report', 'id','id');
+      return $this->belongsToMany('App\report', 'id_report');
     }
     public function users(){
-      return $this->belongsToMany('App\User', 'id','id');
+      return $this->belongsToMany('App\User', 'id_user');
     }
 }

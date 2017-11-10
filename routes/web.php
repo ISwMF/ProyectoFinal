@@ -17,14 +17,31 @@ Route::get('login/facebook/callback', 'TestController@handleProviderCallback');
 Route::post('votereport', 'TestController@votereport');
 
 Route::post('votecomment', 'TestController@votecomment');
+Route::post('sendcomment', 'TestController@addcomment');
+
+Route::post('addfavorite', 'TestController@addfavorite');
+Route::post('removefavorite', 'TestController@removefavorite');
+
+Route::post('updateprofile', 'TestController@updateprofile');
+Route::post('updatepassword', 'TestController@updatepassword');
+
 
 Route::get('/', [
   'uses' => 'TestController@view',
   'as'   => 'userView'
 ])->name('house');
 
+Route::get('profile/{id}/edit', [
+  'uses' => 'TestController@editView',
+  'as'   => 'userView'
+]);
+
 Route::get('news/{id}', [
   'uses' => 'TestController@reportView',
+  'as'   => 'userView'
+]);
+Route::get('profile/{id}', [
+  'uses' => 'TestController@viewprofile',
   'as'   => 'userView'
 ]);
 Route::get('newpost', [
