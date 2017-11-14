@@ -150,3 +150,15 @@ function votedowncomment(){
      }
   });
 }
+
+function deleteComment(){
+  var a = arguments[0];
+  $.ajax({
+     type:'POST',
+     url:'/deleteComment',
+     data:{id:a},
+     success:function(data){
+       $("#deleteComment"+ a).prop('disabled', true);
+     }
+  });
+}

@@ -13,8 +13,16 @@
   <body>
     @if(true)
     <div class="container">
+      @if(Session::has('name'))
+      <div class="top-right links">
+        <a href="/">Home</a>
+        <a href="/profile/{{Session::get('id')}}">Profile</a>
+        <a href="/newpost/">Post a new notice</a>
+        <a href="/exit">Log Out</a>
+      </div>
+      @endif
       <h1>Edit profile</h1>
-      {!!Form::open(['action' => 'TestController@updateprofile'])!!}
+      {!!Form::open(['action' => 'UserController@updateProfile'])!!}
       <div class="form-group">
         {!!Form::label('name', 'Name')!!}
         {!!Form::text('name', Session::get('name'), ['placeholder' => Session::get('name'),'class' => 'form-control'])!!}
@@ -29,7 +37,7 @@
       {!!Form::close()!!}
       <br><br>
       <h1>Edit password</h1>
-      {!!Form::open(['action' => 'TestController@updatepassword'])!!}
+      {!!Form::open(['action' => 'UserController@updatePassword'])!!}
       <div class="form-group">
         {!!Form::label('oldpassword', 'Old Password')!!}
         {!!Form::password('oldpassword', ['placeholder' => '******','required','class' => 'form-control'])!!}

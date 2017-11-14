@@ -27,12 +27,12 @@ class User extends Authenticatable
         'password',
     ];
     public function reports(){
-      return $this->hasMany('App\report', 'id','id');
+      return $this->hasMany('App\report');
     }
     public function comments(){
-      return $this->hasMany('App\comment', 'id','id');
+      return $this->hasMany('App\comment');
     }
     public function favorites(){
-      return $this->belongsToMany('App\favorite', 'id','id');
+      return $this->belongsToMany('App\favorite', 'id_user');
     }
   }

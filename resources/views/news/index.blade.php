@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{!! asset('css/app.css')!!}">
+    <link rel="stylesheet" href="{!! asset('css/link.css')!!}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="{!! asset('js/new.js') !!}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -13,10 +15,18 @@
   </head>
   <body>
     <div class="container">
+      @if(Session::has('name'))
+      <div class="top-right links">
+        <a href="/">Home</a>
+        <a href="/profile/{{Session::get('id')}}">Profile</a>
+        <a href="/newpost/">Post a new notice</a>
+        <a href="/exit">Log Out</a>
+      </div>
+      @endif
       <h1>{{$report->title}}</h1>
       <div class="row">
         <div class="col-sm-10">
-          <hr><b>Post by:</b> {{$report->user->name}}</hr>
+          <hr><b>Post by:</b> <a href="/profile/{{$report->user->id}}">{{$report->user->name}}</a></hr>
         </div>
         @if(Session::has('name') && !isset($favorite[0]))
         <div class="col-sm-2" id="favorite">
@@ -41,7 +51,7 @@
       <h4>Points: {{$report->points}}</h4>
     </div>
 
-    @if(Session::has('name'))
+    @if(Session::has('name') && $report->user->id != Session::get('id'))
       <script type="text/javascript">
           $.ajaxSetup({
             headers: {
@@ -92,13 +102,22 @@
                 <input type="button" name="votedowncomment{{$comment->id}}" id="votedowncomment{{$comment->id}}" value="--" class="btn btn-info " onclick="votedowncomment({{$comment->id}})">
               </div>
             </div>
+            @elseif(Session::has('name') && $comment->user->id == Session::get('id'))
+            <div class="col-sm-1 col-xs-4">
+
+            </div>
             @endif
             <div class="col-sm-9 col-xs-4">
               <p><b>{{$comment->user->name}} commented</b> | {{$comment->created_at}}</p>
             </div>
-            <div class="col-sm-2 col-xs-4" id="pointscomment{{$comment->id}}" name="pointscomment{{$comment->id}}">
+            <div class="col-sm-1 col-xs-4" id="pointscomment{{$comment->id}}" name="pointscomment{{$comment->id}}">
               <b>Points: {{$comment->points}}</b>
             </div>
+            @if(Session::has('name') && $comment->user->id == Session::get('id'))
+            <div class="col-sm-1 col-xs-4" align="right">
+              <button type="button" onclick="deleteComment({{$comment->id}})" name="deleteComment{{$comment->id}}" id="deleteComment{{$comment->id}}" class="btn btn-danger btn-block" >X</button>
+            </div>
+            @endif
 
           </div>
 

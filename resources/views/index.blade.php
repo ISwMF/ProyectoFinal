@@ -3,26 +3,14 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{!! asset('css/app.css')!!}">
+    <link rel="stylesheet" href="{!! asset('css/link.css')!!}">
     <title>News</title>
-    <style>
-    .top-right {
-        position: absolute;
-        right: 10px;
-        top: 18px;
-    }
-    .links > a {
-        color: #636b6f;
-        padding: 0 25px;
-    }
-    </style>
   </head>
   <body>
     <div class="container">
 
       <h1>NEWS</h1>
-      <?php
-
-      ?>
       @if(Session::has('name'))
         <p>Welcome {{Session::get('name')}} </p>
         <div class="top-right links">

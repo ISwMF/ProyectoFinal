@@ -3,26 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\report;
+use App\User;
 
-class HomeController extends Controller
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+class HomeController extends Controller {
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('home');
+  public function view(){
+    $reports = report::all();
+    $length = count($reports);
+    for($i=0;$i<($length-1);$i++){
+      for($j=$i+1;$j<$length;$j++){
+        if($reports[$i]->points < $reports[$j]->points){
+            $variableauxiliar=$reports[$i];
+            $reports[$i]=$reports[$j];
+            $reports[$j]=$variableauxiliar;
+        }
+      }
     }
+    for ($i=0; $i < count($reports) ; $i++) {
+      $reports[$i]->user;
+    }
+    return view('index', ['reports' => $reports]);
+  }
+
 }

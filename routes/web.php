@@ -11,69 +11,71 @@
 |
 */
 
-Route::get('login/facebook', 'TestController@redirectToProvider')->name('facebook.login');
-Route::get('login/facebook/callback', 'TestController@handleProviderCallback');
+Route::get('login/facebook', 'UserController@redirectToProvider')->name('facebook.login');
+Route::get('login/facebook/callback', 'UserController@handleProviderCallback');
 
-Route::post('votereport', 'TestController@votereport');
+Route::post('votereport', 'UserController@voteReport');
+Route::post('votecomment', 'UserController@voteComment');
+Route::post('sendcomment', 'UserController@addComment');
 
-Route::post('votecomment', 'TestController@votecomment');
-Route::post('sendcomment', 'TestController@addcomment');
+Route::post('addfavorite', 'UserController@addFavorite');
+Route::post('removefavorite', 'UserController@removeFavorite');
 
-Route::post('addfavorite', 'TestController@addfavorite');
-Route::post('removefavorite', 'TestController@removefavorite');
+Route::post('updateprofile', 'UserController@updateProfile');
+Route::post('updatepassword', 'UserController@updatePassword');
 
-Route::post('updateprofile', 'TestController@updateprofile');
-Route::post('updatepassword', 'TestController@updatepassword');
+Route::post('deleteReport', 'ReportController@deleteReport');
 
+Route::post('deleteComment', 'UserController@deleteComment');
 
 Route::get('/', [
-  'uses' => 'TestController@view',
+  'uses' => 'HomeController@view',
   'as'   => 'userView'
 ])->name('house');
 
 Route::get('profile/{id}/edit', [
-  'uses' => 'TestController@editView',
+  'uses' => 'UserController@viewEdit',
   'as'   => 'userView'
 ]);
 
 Route::get('news/{id}', [
-  'uses' => 'TestController@reportView',
+  'uses' => 'ReportController@reportView',
   'as'   => 'userView'
 ]);
 Route::get('profile/{id}', [
-  'uses' => 'TestController@viewprofile',
+  'uses' => 'UserController@viewProfile',
   'as'   => 'userView'
 ]);
 Route::get('newpost', [
-  'uses' => 'TestController@newpostView',
+  'uses' => 'UserController@postReport',
   'as'   => 'userView'
 ]);
-Route::post('reportAuth', [
-  'uses' => 'TestController@reportAuthView',
+Route::post('uploadReport', [
+  'uses' => 'ReportController@uploadReport',
   'as'   => 'userView'
 ]);
 Route::get('exit',[
-  'uses' => 'TestController@exitView',
+  'uses' => 'UserController@exit',
   'as'   => 'userView'
 ]);
 Route::post('userAuth',[
-  'uses' => 'TestController@authView',
+  'uses' => 'UserController@logIn',
   'as'   => 'userView'
 ]);
-Route::post('userSignIn',[
-  'uses' => 'TestController@signin',
-  'as'   => 'userView'
-]);
-
-
 Route::get('log',[
-  'uses' => 'TestController@loginView',
+  'uses' => 'UserController@viewLogin',
   'as'   => 'userView'
 ]);
+Route::post('signIn',[
+  'uses' => 'UserController@signIn',
+  'as'   => 'userView'
+]);
+
 Route::get('reg',[
-  'uses' => 'TestController@registerView',
+  'uses' => 'UserController@viewSignIn',
   'as'   => 'userView'
 ]);
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
