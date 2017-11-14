@@ -9,6 +9,8 @@
     <script type="text/javascript" src="{!! asset('js/new.js') !!}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <link rel="stylesheet" href="{!! asset('css/app.css')!!}">
+    <link rel="stylesheet" href="{!! asset('css/link.css')!!}">
   </head>
   <body>
     @if(true)
