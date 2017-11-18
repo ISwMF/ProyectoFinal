@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
 use App\report;
@@ -66,6 +67,20 @@ class UserController extends Controller {
     }else {
       echo "Your email is incorrect";
     }
+  }
+
+  public function search(Request $request){
+    return redirect('/search/'.$request->search);
+  }
+
+  public function searchSomething($something){
+    $userName = DB::table('users')->where('name', 'LIKE', '%'.$something.'%')->get();
+    $userEmail = DB::table('users')->where('email', 'LIKE', '%'.$something.'%')->get();
+    $reportURL = DB::table('reports')->where('URL', 'LIKE', '%'.$something.'%')->get();
+    $reportTitle = DB::table('reports')->where('title', 'LIKE', '%'.$something.'%')->get();
+    //dd($userName, $userEmail, $reportURL, $reportTitle);
+    return view('search.index', ['usersNames'=> $userName, 'usersEmails' =>$userEmail, 'reportsURLs' => $reportURL, 'reportsTitles' => $reportTitle]);
+
   }
 
   public function viewEdit(){

@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::apiResource('user', 'Auth\AdminUserController');
-//Route::apiResource('comment', 'Admin\CommentController');
-//Route::apiResource('report', 'Admin\ReportController');
+Route::apiResource('user', 'Admin\UserController');
+Route::apiResource('comment', 'Admin\CommentController');
+Route::apiResource('report', 'Admin\ReportController');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

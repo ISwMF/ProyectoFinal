@@ -42,6 +42,14 @@ Route::get('news/{id}', [
   'uses' => 'ReportController@reportView',
   'as'   => 'userView'
 ]);
+
+Route::post('search', 'UserController@search');
+
+Route::get('search/{something}', [
+  'uses' => 'UserController@searchSomething',
+  'as'   => 'userView'
+]);
+
 Route::get('profile/{id}', [
   'uses' => 'UserController@viewProfile',
   'as'   => 'userView'

@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\User as UserResource;
+//use App\Http\Resources\User as UserResource;
+use App\Http\Controllers\Controller;
 use App\User;
 
 class UserController extends Controller {
 
     public function index()  {
-
+      $users = User::all();
+      return $users;
     }
 
     public function store(Request $request) {
@@ -22,7 +24,8 @@ class UserController extends Controller {
     }
 
     public function show($id) {
-      return new UserResource(User::find($id));
+      $user = User::find($id);
+      return $user;
     }
 
     public function update(Request $request, $id) {

@@ -5,11 +5,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{!! asset('css/app.css')!!}">
     <link rel="stylesheet" href="{!! asset('css/link.css')!!}">
+    <link rel="stylesheet" href="{!! asset('css/inputSearch.css')!!}">
     <title>News</title>
   </head>
   <body>
     <div class="container">
-
       <h1>NEWS</h1>
       @if(Session::has('name'))
         <p>Welcome {{Session::get('name')}} </p>
@@ -18,12 +18,16 @@
           <a href="newpost/">Post a new notice</a>
           <a href="exit">Log Out</a>
         </div>
+        <div class="search">
+          {!! Form::open(['action' => 'UserController@search']) !!}
+            {!!Form::text('search', '', ['placeholder' => 'Search','', 'class' => ''])!!}
+          {!! Form::close() !!}
+        </div>
       @else
-
-      <div class="top-right links">
-        <a href="log/">Login</a>
-        <a href="reg/">Register</a>
-      </div>
+        <div class="top-right links">
+          <a href="log/">Login</a>
+          <a href="reg/">Register</a>
+        </div>
       @endif
 
       <div id='news'>

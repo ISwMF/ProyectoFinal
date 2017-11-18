@@ -7,3 +7,8 @@
     color: #636b6f;
     padding: 0 25px;
 }
+.search {
+  position: absolute;
+  right: 10px;
+  top: 60px;
+}
