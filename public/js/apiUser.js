@@ -66,7 +66,6 @@ function updateUser(){
      success:function(data){
        $("#showignUser").empty();
        $("#showignUser").html("<br><h3><b>"+data.sucess+"</b></h3>");
-       $("$tryUpload")prop('disabled', true);
      }
   });
 }

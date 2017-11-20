@@ -30,6 +30,11 @@ Route::post('deleteReport', 'ReportController@deleteReport');
 
 Route::post('deleteComment', 'UserController@deleteComment');
 
+Route::get('news/{id}/edit', [
+  'uses' => 'Admin\AdminController@authtoEditReport',
+  'as'   => 'userView'
+]);
+
 Route::get('/', [
   'uses' => 'HomeController@view',
   'as'   => 'userView'

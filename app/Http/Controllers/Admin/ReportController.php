@@ -18,10 +18,12 @@ class ReportController extends Controller {
       $report = new report;
       $report->id_user = $request->id_user;
       $report->title = $request->title;
-      $report->URL = $request->URL;
+      $report->URL = $request->link;
       $report->description = $request->description;
       $report->save();
-      return $report;
+      return response()->json([
+        'sucess' => 'Created news'
+      ]);
     }
 
     public function show($id) {
@@ -33,10 +35,12 @@ class ReportController extends Controller {
     public function update(Request $request, $id) {
       $report = report::find($id);
       $report->title = $request->title;
-      $report->URL = $request->URL;
+      $report->URL = $request->link;
       $report->description = $request->description;
       $report->save();
-      return $report;
+      return response()->json([
+        'sucess' => 'Updated news'
+      ]);
     }
 
     public function destroy($id) {

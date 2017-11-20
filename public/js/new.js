@@ -27,7 +27,7 @@ function addtofavorite(){
      data:{id_report:a},
      success:function(data){
        $("#favorite").empty();
-       $('#favorite').html('<button type=\"button\" name=\"buttonunfavorite\" id=\"buttonunfavorite\" class=\"btn btn-warning\" onclick=\"removefavorite('+a+')\">Remove from favorites</button>');
+       $('#favorite').html('<button type=\"button\" name=\"buttonunfavorite\" id=\"buttonunfavorite\" class=\"btn btn-warning btn-block\" onclick=\"removefavorite('+a+')\">Remove from favorites</button>');
      }
   });
 }
@@ -39,7 +39,7 @@ function removefavorite(){
      data:{id_report:a},
      success:function(data){
        $("#favorite").empty();
-       $('#favorite').html('<button type=\"button\" name=\"buttonfavorite\" id=\"buttonfavorite\" class=\"btn btn-warning\" onclick=\"addtofavorite('+a+')\">Add to favorites</button>');
+       $('#favorite').html('<button type=\"button\" name=\"buttonfavorite\" id=\"buttonfavorite\" class=\"btn btn-warning btn-block\" onclick=\"addtofavorite('+a+')\">Add to favorites</button>');
      }
   });
 }

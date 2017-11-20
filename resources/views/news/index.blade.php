@@ -25,20 +25,35 @@
       @endif
       <h1>{{$report->title}}</h1>
       <div class="row">
-        <div class="col-sm-10">
+        <div class="col-sm-9">
           <hr><b>Post by:</b> <a href="/profile/{{$report->user->id}}">{{$report->user->name}}</a></hr>
         </div>
+
         @if(Session::has('name') && !isset($favorite[0]))
-        <div class="col-sm-2" id="favorite">
-          <button type="button" name="buttonfavorite" id="buttonfavorite" class="btn btn-warning" onclick="addtofavorite({{$report->id}})">Add to favorites</button>
+        <div class="col-sm-3" id="favorite">
+          <button type="button" name="buttonfavorite" id="buttonfavorite" class="btn btn-warning btn-block" onclick="addtofavorite({{$report->id}})">Add to favorites</button>
         </div>
         @elseif(Session::has('name') && isset($favorite[0]))
-        <div class="col-sm-2" id="favorite">
-          <button type="button" name="buttonunfavorite" id="buttonunfavorite" class="btn btn-warning" onclick="removefavorite({{$report->id}})">Remove from favorites</button>
+        <div class="col-sm-3" id="favorite">
+          <button type="button" name="buttonunfavorite" id="buttonunfavorite" class="btn btn-warning btn-block" onclick="removefavorite({{$report->id}})">Remove from favorites</button>
         </div>
         @endif
       </div>
-      <br><br>
+      <div class="row">
+        <div class="col-sm-8">
+
+        </div>
+        <div class="col-sm-4">
+          <div class="btn-group btn-group-justified">
+            @if(Session::get('permission') > 3)
+            <a href="#" class="btn btn-danger">Delete this</a>
+            @endif
+            @if(Session::get('permission')   > 2)
+            <a href="{{$report->id}}/edit" class="btn btn-info">Edit this</a>
+            @endif
+          </div>
+        </div>
+      </div>
     <div id="report_description">
       {{$report->description}}
     </div>
