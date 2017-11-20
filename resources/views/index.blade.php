@@ -14,6 +14,9 @@
       @if(Session::has('name'))
         <p>Welcome {{Session::get('name')}} </p>
         <div class="top-right links">
+          @if(Session::get('permission') > 1)
+          <a href="admin">Administrator</a>
+          @endif
           <a href="profile/{{Session::get('id')}}">Profile</a>
           <a href="newpost/">Post a new notice</a>
           <a href="exit">Log Out</a>

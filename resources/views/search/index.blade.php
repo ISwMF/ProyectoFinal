@@ -13,7 +13,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
   </head>
   <body>
-    <div class="content">
+    <div class="container">
       @if(Session::has('name'))
       <div class="top-right links">
           <a href="/">Home</a>

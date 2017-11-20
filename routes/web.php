@@ -21,6 +21,8 @@ Route::post('sendcomment', 'UserController@addComment');
 Route::post('addfavorite', 'UserController@addFavorite');
 Route::post('removefavorite', 'UserController@removeFavorite');
 
+Route::get('admin', 'Admin\AdminController@auth');
+
 Route::post('updateprofile', 'UserController@updateProfile');
 Route::post('updatepassword', 'UserController@updatePassword');
 

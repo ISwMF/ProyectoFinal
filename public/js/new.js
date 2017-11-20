@@ -12,6 +12,7 @@ function openCity(evt, cityName) {
     evt.currentTarget.className += " active";
 }
 
+
 $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

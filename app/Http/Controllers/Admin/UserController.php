@@ -20,7 +20,9 @@ class UserController extends Controller {
       $user->email = $request->email;
       $user->password = bcrypt($request->password);
       $user->save();
-      return $user;
+      return response()->json([
+        'sucess' => 'Created user'
+      ]);
     }
 
     public function show($id) {
@@ -35,7 +37,9 @@ class UserController extends Controller {
       $user->permission = $request->permission;
       $user->email = $request->email;
       $user->save();
-      return $user;
+      return response()->json([
+        'sucess' => 'Updated user'
+      ]);
     }
 
     public function destroy($id) {
