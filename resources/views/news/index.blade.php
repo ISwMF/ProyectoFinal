@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{!! asset('css/link.css')!!}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="{!! asset('js/new.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('js/apiReport.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('js/apiComment.js') !!}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>{{$report->title}}</title>
@@ -45,11 +47,32 @@
         </div>
         <div class="col-sm-4">
           <div class="btn-group btn-group-justified">
-            @if(Session::get('permission') > 3)
-            <a href="#" class="btn btn-danger">Delete this</a>
-            @endif
             @if(Session::get('permission')   > 2)
+            <!--<button type="button" name="button" class="btn btn-info" onclick="window.location.href='http://www.hyperlinkcode.com/button-links.php'">Edit this</button>-->
             <a href="{{$report->id}}/edit" class="btn btn-info">Edit this</a>
+            @endif
+            @if(Session::get('permission') > 3)
+            <!--<button type="button" name="button" class="btn btn-danger" onclick="deleteReport({{$report->id}})">Delete this</button>-->
+            <a data-toggle="modal" data-target="#myModal" class="btn btn-danger">Delete this</a>
+            <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sure?</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>Do you really want to delete this?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" name="button" class="btn btn-danger" onclick="deleteReport({{$report->id}})"> Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             @endif
           </div>
         </div>
@@ -88,6 +111,7 @@
           <h4>Sponsor</h4>
         </div>
       </div>
+      <!--https://speech.platform.bing.com/speech/recognition/interactive/cognitiveservices/v1?language=es-ES-->
       <div class="col-sm-6">
         <div class="panel panel-primary">
           <div class="panel-heading">Make a comment</div>
@@ -137,7 +161,39 @@
           </div>
 
         </div>
-        <div class="panel-body">{{$comment->description}}</div>
+        <div class="panel-body" id="descriptionof{{$comment->id}}">
+          <div class="row">
+            <div class="col-sm-10">
+              {{$comment->description}}
+            </div>
+            @if(Session::get('permission')>2)
+            <div align="right" class="col-sm-2">
+              <div class="btn-group">
+                <button type="button" name="button" class="btn btn-info btn-sm" onclick="opentoEdit({{$comment->id}})">Edit</button>
+                <button type="button" name="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#suretodeletecomment">Delete</button>
+                <div class="modal fade" id="suretodeletecomment" role="dialog" align="left">
+                  <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Sure?</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you really want to delete this?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" name="button" class="btn btn-danger" onclick="deleteCommentasAdmin({{$comment->id}}, {{$report->id}})"> Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endif
+          </div>
+        </div>
       </div>
       @endforeach
     </div>

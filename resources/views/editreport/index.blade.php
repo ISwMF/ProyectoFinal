@@ -14,7 +14,7 @@
   </head>
   <body>
     <div class="container" >
-      <h1>Edit news</h1>
+      <h1>Edit news </h1>
       @if(Session::has('name'))
         <div class="top-right links">
           <a href="/">Home</a>

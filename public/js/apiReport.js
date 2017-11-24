@@ -52,3 +52,14 @@ function updateReport(){
      }
   });
 }
+
+function deleteReport(){
+  var a = arguments[0];
+  $.ajax({
+     type:'DELETE',
+     url:'/api/report/'+a,
+     success:function(data){
+       window.location.href = "/";
+     }
+  });
+}
